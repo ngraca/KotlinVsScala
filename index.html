@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/sky.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+		<style>
+			.kotlin-logo {
+				width: 300px;
+				position: fixed;
+				top: 100px;
+				left: -500px;
+			}
+
+			.scala-logo {
+				width: 300px;
+				position: fixed;
+				top: 100px;
+				left: -500px;
+			}
+
+			.toolbox-img {
+				width: 300px;
+				position: fixed;
+				top: 100px;
+				left: -500px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background="images/cover-background.png">
+					<div style="position: absolute; left: 0; color: #fff; font-size: 30px; text-align: left;">
+					<h1>Kotlin <strike>vs</strike> Scala</h1>
+					</div>
+				</section>
+				<section>
+					<h2>What is this presentation not about?</h2>
+					<ul>
+						<li>Not a competition</li>
+						<li>Not to make people change language they work</li>
+					</ul>
+				</section>
+				<section>
+					<h2>What is this presentation about?</h2>
+					<ul>
+						<li>For people who want to learn</li>
+						<li>To show they are not so different</li>
+						<li>Use the bases you already have</li>
+					</ul>
+				</section>
+				<section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h2>Kotlin</h2>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Simple Class</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers>
+								<script type="text/template">
+									class Person(
+										val name: String,
+										var age: Int = 0
+									)
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">OO Comparison</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|5-10|12-15">
+								<script type="text/template">
+									class Person(
+										val name: String,
+										var age: Int = 0
+									) {
+										fun sayHi() = “Hi”
+
+										operator fun plus(lifetime: Int): Person {
+											age += lifetime
+											return this
+										}
+
+										companion object {
+											fun newBorn(name: String) =
+												Person(name, 0)
+										}
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">OO Comparison</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|1|4|10-11">
+								<script type="text/template">
+									open class Specie(
+									val kind: String
+									) {
+									open fun eats(): List<String> = emptyList()
+									}
+
+									class Person(
+										val name: String,
+										var age: Int = 0
+									): Specie("Human") {
+										override fun eats() = listOf("...")
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Value Classes</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|1">
+								<script type="text/template">
+									data class Person(
+										val name: String,
+										var age: Int = 0
+									)
+
+									val jack = Person("Jack", 40)
+									// jack: Person(name = Jack, age = 40)
+
+									jack == Person("Jack", 40)
+									// res1: true
+
+									val fred = jack.copy(name = "Fred")
+									// fred: Person(name = Fred, age = 40)
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Declaring and Calling Functions</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|7|10-12,14-16">
+								<script type="text/template">
+									fun readFileToString(file: File): String {
+										return file.readText()
+									}
+
+									fun doWithText(
+										file: File,
+										transFun: (String) -> String
+									): String = transFun(readFileToString(file))
+
+									doWithText(File("/text.txt")) { txt ->
+										txt.toUppercase()
+									}
+
+									doWithText(File("/text.txt")) {
+										it.toUpperCase()
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Declaring and Calling Functions</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|7,10|13-15">
+								<script type="text/template">
+									fun writeStringToFile(file: File, block: String) {
+										file.writeText(block)
+									}
+
+									fun writeToFile(
+										file: File,
+										block: () -> String
+									) {
+										if (file.isFile)
+											writeStringToFile(file, block())
+									}
+
+									writeToFile(File("/text.txt")) {
+										"Kotlin rocks! ".repeat(1000)
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Currying</h3>
+						<p>Not available as pure language feature</p>
+						<p>Available through other libs like <a href="https://arrow-kt.io/">https://arrow-kt.io/</a></p>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Partially Applied Functions</h3>
+						<p>Not available as pure language feature</p>
+						<p>Available through other libs like <a href="https://arrow-kt.io/">https://arrow-kt.io/</a></p>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Null Safety (Optional Values)</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|1,4|6-7|9|11">
+								<script type="text/template">
+									class Booking(val hotel: Hotel? = null,
+										val price: Long = 0)
+
+									class Hotel(val name: String, val stars: Int? = null)
+
+									val booking: Booking? = Booking(Hotel("Ritz Four Seasons",
+										5))
+
+									val stars = "*".repeat(booking?.hotel?.stars?: 0)
+
+									if(booking != null) {
+										println(booking.hotel)
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Pattern Matching</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="2|3-7|8|12-15">
+								<script type="text/template">
+									fun matchAll(p: Any?): String =
+										when(p) {
+											is Int 									-> "$p"
+											"Kotlin"                -> "Kotlin"
+											Pair("literal", "only") -> "..."
+											is Long? 								-> "null or Long"
+											in 1..10 								-> "Value in 1..10"
+											else 										-> "The default"
+										}
+									}
+
+									fun matchAll(p: Any?): String = when {
+										p is String && p.endsWith("!") -> "$p"
+										else 													 -> "The default"
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Destructuring</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|6-7|9-10">
+								<script type="text/template">
+									data class Person(
+										val name: String,
+										val age: Int
+									)
+
+									val john = Person("John", 42)
+									val (name, age) = john
+
+									fun component1() = name
+									fun component2() = age
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Composition</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|1-3|5-11|13-15|17">
+								<script type="text/template">
+									open class Ship(
+										var health: Int = 100
+									)
+
+									interface Gun {
+										val strength: Int
+
+										fun fireAt(ship: Ship) {
+											ship.health =- (1 * strength)
+										}
+									}
+
+									class LaserGun(
+										override val strength: Int = 5
+									): Gun
+
+									class Commander(gun: Gun): Ship(), Gun by gun
+
+									val commander = Commander(LaserGun())
+									commander.fireAt(...)
+									commander.s // -> 5
+									commander is Gun // -> true
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Types and Variance</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|6-7|10-11|13-14">
+								<script type="text/template">
+									open class Animal
+									class Dog: Animal()
+									class Cat: Animal()
+
+									//Covariant
+									class MyList<out T>
+									val animals: MyList<Animal> = MyList<Dog>()
+
+									//Contravariant
+									class Vet<in T>
+									val lassiesVet: Vet<Dog> = Vet<Animal>()
+
+									typealias AnimalList = MyList<Animal>
+									val animalsList: AnimalList = animals
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Extensions</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers>
+								<script type="text/template">
+									fun Int.square(): Int) = this * this
+
+									2.square() // -> 4
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Collections</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers>
+								<script type="text/template">
+									val l = listOf(1, 2, 3)
+									// l -> 1, 2, 3
+									val l2 = l + 4
+									// l2 -> 1, 2, 3, 4
+
+									val m1 = mutableListOf(1, 2, 3)
+									// m1 -> 1, 2, 3
+									m1 + 4
+									// m1 -> 1, 2, 3, 4
+
+									(1..3).filter { it % 2 == 0 }
+									// -> 2
+
+									listOf(1, 2, 3).windowed(2)
+									// -> List(List(1, 2), List(2, 3))
+
+									setOf("a" to 1).toMap()
+									// -> Map("a" -> 1)
+
+									listOf(1, 2) + listOf(3, 4)
+									// -> 1, 2, 3, 4
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Concurrency (Coroutines)</h3>
+						<pre data-id="code-animation">
+							<code class="hljs kotlin" data-trim data-line-numbers="|3-8,10-15|17-22|26,27|29,30,32,33|34|25,36,39">
+								<script type="text/template">
+									data class Product(val id: Long)
+
+									suspend fun findProductByName(name: String): Product =
+										coroutineScope {
+											println("Looking for product: $name")
+											delay(10000L)
+											Product(1)
+										}
+
+									suspend fun getRating(id: Long): Int =
+										coroutineScope {
+											println("Looking for rating: $id")
+											delay(1000L)
+											100
+										}
+
+									suspend fun getPrice(id: Long): Int =
+										coroutineScope {
+											println("Looking for price: $id")
+											delay(2000L)
+											500
+										}
+
+									suspend fun main() {
+										val coroutineScope = coroutineScope {
+											val product = async { findProductByName("Some Product") }
+											val finalProduct = product.await()
+
+											val rating = async { getRating(finalProduct.id) }
+											val price = async { getPrice(finalProduct.id) }
+
+											val finalRating = rating.await()
+											val finalPrice = price.await()
+											println("$finalProduct has rating: $finalRating and price: $finalPrice")
+
+											product
+										}
+
+										val product = coroutineScope.await()
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+				</section>
+
+				<section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h2>Scala</h2>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Simple Class</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers>
+								<script type="text/template">
+									class Person(
+										val name: String,
+										var age: Int = 0
+									)
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">OO Comparison</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|5|6,8|12-15">
+								<script type="text/template">
+									class Person(
+										val name: String,
+										var age: Int = 0
+									) {
+										def sayHi() = “Hi”
+										def +(lifetime: Int): Person = {
+											age += lifetime
+											this
+										}
+									}
+
+									object Person {
+										def newBorn(name: String) =
+											new Person(name, 0)
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">OO Comparison</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|1,4|10-11">
+								<script type="text/template">
+									class Specie(
+										val kind: String
+									) {
+										def eats(): Seq[String] = Seq()
+									}
+
+									class Person(
+										val name: String,
+										var age: Int = 0
+									) extends Specie("Human") {
+										override def eats() = Seq("...")
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Value Classes</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|1">
+								<script type="text/template">
+									case class Person(
+										val name: String,
+										var age: Int = 0
+									)
+
+									val jack = Person("Jack", 40)
+									// jack: Person(Jack, 40)
+
+									jack == Person("Jack", 40)
+									// res1: true
+
+									val fred = jack.copy(name = "Fred")
+									// fred: Person(Fred, 40)
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Declaring and Calling Functions</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|6|10-13,15-18">
+								<script type="text/template">
+									def readFileToString(file: File): String =
+										Source.fromFile(file).mkString
+
+									def doWithText(
+										file: File,
+										transFun: File => String
+									): String =
+										transFun(readFileToString(file))
+
+									doWithText(
+										new File("/text.txt"),
+										txt => txt.toUppercase()
+									}
+
+									doWithText(
+										new File("/text.txt"),
+										_.toUpperCase()
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Declaring and Calling Functions</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|9,12|15-18">
+								<script type="text/template">
+									def writeStringToFile(file: File, block: String): Unit = {
+										val fileWriter = new FileWriter(file)
+										fileWriter.write(block)
+										fileWriter.close()
+									}
+
+									def doWithText(
+										file: File,
+										block: => String
+									) {
+										if(file.isFile)
+											writeStringToFile(file, block)
+									}
+
+									writeToFile(
+										new File("/text.txt"),
+										"Scala rocks! " * 1000
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Currying</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|3|6,9">
+								<script type="text/template">
+									def modN(n: Int)(x: Int): Boolean = ((x % n) == 0)
+
+									val modTwo = modN(2)(_)
+									// modTwo: Int => Boolean = <function>
+
+									modTwo(6)
+									// res: true
+
+									Seq(1, 2, 3, 4) filter modTwo
+									// res: Seq[Int] = List(2, 4)
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Partially Applied Functions</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|1|3,6">
+								<script type="text/template">
+									val greaterThan100 = Math.max(100, _: Int)
+
+									greaterThan100(50)
+									// res: Int = 100
+
+									greaterThan100(200)
+									// res: Int = 200
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Optional Values</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|1,4|6,9,10|12-16">
+								<script type="text/template">
+									case class Booking(hotel: Option[Hotel] = None,
+										price: Long = 0)
+
+									case class Hotel(name: String, stars: Option[Int] = None)
+
+									val bOpt = Some(Booking(Some(Hotel("Ritz Four Seasons",
+										Some(5)))))
+
+									var stars = "*" * bOpt.flatMap(_.hotel).flatMap(_.stars)
+										.getOrElse(0)
+
+									stars = "*" * (for {
+										booking <- bOpt
+										hotel   <- booking.hotel
+										stars   <- hotel.stars
+									} yield stars).getOrElse(0)
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Pattern Matching</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|2|3-11">
+								<script type="text/template">
+									def matchAll(p: Any): String = {
+										p match {
+											case x: Int 											=> s"$x"
+											case "Scala" 											=> "Scala"
+											case Seq(_, 3, _*) 								=> "Seq(?, 3, *)"
+											case head :: tail 								=> s"head $tail"
+											case (firstEl, _) 								=> s"$firstEl"
+											case Some(s: Long) 								=> s"Some Long $s"
+											case x: Int if 1 to 10 contains x => s"$x"
+											case x: String if x.endsWith("!") => s"$x"
+											case _ 														=> "The default"
+										}
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Destructuring</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|6-7|9-11">
+								<script type="text/template">
+									case class Person(
+										name: String,
+										age: Int
+									)
+
+									val john = Person("John", 42)
+									val Person(name, age) = john
+
+									object Person {
+										def unapply(person: Person): Option[(String, Int)] =
+											Some((person.name, person.age))
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Composition</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|1-3|5-11|13-15|17,19|20">
+								<script type="text/template">
+									abstract class Ship(
+										var health: Int = 100
+									)
+
+									trait Gun {
+										val strength: int = 1
+
+										def fireAt(ship: Ship) = {
+											ship.health -= (1 * strength)
+										}
+									}
+
+									trait LaserGun extends Gun {
+										override val strength: Int = 5
+									}
+
+									class Commander extends Ship() with Gun
+
+									val commander = new Commander()
+									val laserGunShip = new Ship() with LaserGun
+									commander.fireAt(laserGunShip)
+									commander.strength // -> 1
+									commander.isInstanceOf[Gun] // -> true
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Types and Variance</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|6,7|10,11|14,15">
+								<script type="text/template">
+									class Animal
+									class Dog extends Animal
+									class Cat extends Animal
+
+									// Covariant
+									class MyList[+T]
+									val animals: MyList[Animal] = new MyList[Dog]
+
+									// Contravariant
+									class Vet[-T]
+									val lassiesVet: Vet[Dog] = new Vet[Animal]
+
+									// Type
+									type AnimalList = MyList[Animal]
+									val animalsList: AnimalList = animals
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Extensions</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers>
+								<script type="text/template">
+									implicit class RichInt(
+										val value: Int
+									) extends AnyVal {
+										def square = value * value
+									}
+
+									2.square() // -> 4
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Collections</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers>
+								<script type="text/template">
+									val l1 = Seq(1, 2, 3)
+									// l1 -> 1, 2, 3
+									val l2 = 1 :+ 4
+									// l2 -> 1, 2, 3, 4
+
+									val m1 = ListBuffer(1, 2, 3)
+									// m1 -> 1, 2, 3
+									m1 :+ 4
+									// m1 -> 1, 2, 3, 4
+
+									(1 to 3).filter(_ % 2 == 0)
+									// -> 2
+
+									List(1, 2, 3).sliding(2)
+									// -> List(List(1, 2), List(2, 3))
+
+									Seq("a" -> 1).toMap
+									// -> Map("a" -> 1)
+
+									List(1, 2) ++ List(3, 4)
+									// -> 1, 2, 3, 4
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Concurrency (Futures)</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|3-5|8|9|10,11|12,13|15-17">
+								<script type="text/template">
+									case class Product(id: Long)
+
+									def findProductByName(name: String): Future[Product] = ???
+									def getRating(id: Long): Future[Int] = ???
+									def getPrice(id: Long): Future[Int] = ???
+
+									def main(args: Array[String]): Unit = {
+										findProductByName("Some Product")
+											.flatMap { product =>
+												val ratingFut = getRating(product.id)
+												val priceFut = getPrice(product.id)
+												ratingFut.flatMap(rating => priceFut
+													.map(price => (product, rating, price)))
+											}
+											.foreach { case (product, rating, price) =>
+												println(s"$product has rating: $rating and price: $price")
+											}
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+						<h3 data-id="code-title">Concurrency (Futures)</h3>
+						<pre data-id="code-animation">
+							<code class="hljs scala" data-trim data-line-numbers="|8-12|12,13|16|17,18|19,20|21,22">
+								<script type="text/template">
+									case class Product(id: Long)
+
+									def findProductByName(name: String): Future[Product] = ???
+									def getRating(id: Long): Future[Int] = ???
+									def getPrice(id: Long): Future[Int] = ???
+
+									def main(args: Array[String]): Unit = {
+										for {
+											product <- findProductByName("Some Product")
+											rating <- getRating(product.id)
+											price <- getPrice(product.id)
+										} yield
+											println(s"$product has rating: $rating and price: $price")
+
+										for {
+											product <- findProductByName("Some Product")
+											ratingFut = getRating(product.id)
+											priceFut = getPrice(product.id)
+											rating <- ratingFut
+											price <- priceFut
+										} yield
+											println(s"$product has rating: $rating and price: $price")
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+				</section>
+			<section data-background="images/door.jpg">
+				<h2 style="color: #FFF">Where can we go from here?</h2>
+			</section>
+			<section data-background-image="images/toolbox.png" data-background-size="500px" data-background-position="bottom 0px right 100px" data-auto-animate>
+				<h2>Using the right tools</h2>
+			</section>
+			<section data-background-image="images/pekko-logo.png, images/akka-logo.svg" data-background-size="300px, 300px" data-background-position="top 100px left 100px, top 100px right 100px" data-auto-animate>
+				<h2>Pekko/Akka</h2>
+				<ul>
+					<li>Pekko Core (Earlang Actor Model)</li>
+					<li>Pekko HTTP</li>
+					<li>Pekko Streams</li>
+					<li>Pekko Persistence</li>
+					<ul>
+						<li>Event Sourcing</li>
+						<li>Command Query Responsibility Segregation (CQRS)</li>
+					</ul>
+
+				</ul>
+			</section>
+			<section data-background-image="images/spark-logo.png" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+				<h2>Spark</h2>
+				<ul>
+					<li>Big Data Engine</li>
+				</ul>
+			</section>
+			<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
+				<h2>Challenge for Kotlin Developers</h2>
+			</section>
+			<section>
+				<h2>Q&A</h2>
+				<p>GitHub Repo: <a href="https://github.com/ngraca">https://github.com/ngraca</a></p>
+			</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				navigationMode: 'grid',
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
