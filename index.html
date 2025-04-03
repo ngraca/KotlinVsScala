@@ -129,7 +129,7 @@
 					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
 						<h3 data-id="code-title">Value Classes</h3>
 						<pre data-id="code-animation">
-							<code class="hljs kotlin" data-trim data-line-numbers="|1">
+							<code class="hljs kotlin" data-trim data-line-numbers="|1-4|6,7|9,10|12,13">
 								<script type="text/template">
 									data class Person(
 										val name: String,
@@ -210,7 +210,7 @@
 					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
 						<h3 data-id="code-title">Null Safety (Optional Values)</h3>
 						<pre data-id="code-animation">
-							<code class="hljs kotlin" data-trim data-line-numbers="|1,4|6-7|9|11">
+							<code class="hljs kotlin" data-trim data-line-numbers="|1-4|6-7|9|11-13">
 								<script type="text/template">
 									class Booking(val hotel: Hotel? = null,
 										val price: Long = 0)
@@ -222,8 +222,8 @@
 
 									val stars = "*".repeat(booking?.hotel?.stars?: 0)
 
-									if(booking != null) {
-										println(booking.hotel)
+									if(booking != null && booking.hotel != null) {
+										println("${booking.hotel.name} $stars ")
 									}
 								</script>
 							</code>
@@ -488,7 +488,7 @@
 					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
 						<h3 data-id="code-title">Value Classes</h3>
 						<pre data-id="code-animation">
-							<code class="hljs scala" data-trim data-line-numbers="|1">
+							<code class="hljs scala" data-trim data-line-numbers="|1-4|6-7|9-10|12-13">
 								<script type="text/template">
 									case class Person(
 										val name: String,
@@ -599,7 +599,7 @@
 					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
 						<h3 data-id="code-title">Optional Values</h3>
 						<pre data-id="code-animation">
-							<code class="hljs scala" data-trim data-line-numbers="|1,4|6,9,10|12-16">
+							<code class="hljs scala" data-trim data-line-numbers="|1-4|6-10|12-16|18-21">
 								<script type="text/template">
 									case class Booking(hotel: Option[Hotel] = None,
 										price: Long = 0)
@@ -614,9 +614,14 @@
 
 									stars = "*" * (for {
 										booking <- bOpt
-										hotel   <- booking.hotel
-										stars   <- hotel.stars
+										hotel <- booking.hotel
+										stars <- hotel.stars
 									} yield stars).getOrElse(0)
+
+									for {
+										booking <- bOpt
+										hotel <- booking.hotel
+									} yield println(s"${hotel.name} $stars")
 								</script>
 							</code>
 						</pre>
@@ -624,7 +629,7 @@
 					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
 						<h3 data-id="code-title">Pattern Matching</h3>
 						<pre data-id="code-animation">
-							<code class="hljs scala" data-trim data-line-numbers="|2|3-11">
+							<code class="hljs scala" data-trim data-line-numbers="|2|3-10|11">
 								<script type="text/template">
 									def matchAll(p: Any): String = {
 										p match {
