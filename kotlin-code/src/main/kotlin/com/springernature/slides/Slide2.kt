@@ -16,3 +16,9 @@ class Person2(
             Person2(name, 0)
     }
 }
+
+fun main() {
+    val john = Person2.newBorn("John")
+    john + 10
+    println("person: ${john.name}, age: ${john.age}")
+}

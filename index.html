@@ -79,7 +79,7 @@
 					<section data-background-image="images/kotlin-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
 						<h3 data-id="code-title">OO Comparison</h3>
 						<pre data-id="code-animation">
-							<code class="hljs kotlin" data-trim data-line-numbers="|5-10|12-15">
+							<code class="hljs kotlin" data-trim data-line-numbers="|5|7-10|12-15|18-20">
 								<script type="text/template">
 									class Person(
 										val name: String,
@@ -97,6 +97,10 @@
 												Person(name, 0)
 										}
 									}
+
+									val john = Person.newBorn("John")
+									person + 10
+									// john: Person("John", 10)
 								</script>
 							</code>
 						</pre>
@@ -435,7 +439,7 @@
 					<section data-background-image="images/scala-logo.svg" data-background-size="300px" data-background-position="top 100px left 100px" data-auto-animate>
 						<h3 data-id="code-title">OO Comparison</h3>
 						<pre data-id="code-animation">
-							<code class="hljs scala" data-trim data-line-numbers="|5|6,8|12-15">
+							<code class="hljs scala" data-trim data-line-numbers="|5|6-8|12-15|17-19">
 								<script type="text/template">
 									class Person(
 										val name: String,
@@ -452,6 +456,10 @@
 										def newBorn(name: String) =
 											new Person(name, 0)
 									}
+
+									val john = Person.newBorn("John")
+									person + 10
+									// john: Person("John", 10)
 								</script>
 							</code>
 						</pre>
@@ -821,7 +829,7 @@
 			<section data-background="images/door.jpg">
 				<h2 style="color: #FFF">Where can we go from here?</h2>
 			</section>
-			<section data-background-image="images/toolbox.png" data-background-size="500px" data-background-position="bottom 0px right 100px" data-auto-animate>
+			<section data-background-image="images/toolbox.png, images/hammer.jpg" data-background-size="500px, 500px" data-background-position="bottom 0px right 100px, top 50px left 100px" data-auto-animate>
 				<h2>Using the right tools</h2>
 			</section>
 			<section data-background-image="images/pekko-logo.png, images/akka-logo.svg" data-background-size="300px, 300px" data-background-position="top 100px left 100px, top 100px right 100px" data-auto-animate>
